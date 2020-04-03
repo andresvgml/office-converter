@@ -14,6 +14,7 @@ class OfficeConverter
     private $tempPath;
     private $extension;
     private $basename;
+    private $filename;
     private $prefixExecWithExportHome;
 
     /**
@@ -83,6 +84,9 @@ class OfficeConverter
         //basename
         $this->basename = pathinfo($this->file, PATHINFO_BASENAME);
 
+        //filename
+        $this->filename = pathinfo($this->file, PATHINFO_FILENAME);
+
         //extension
         $extension = pathinfo($this->file, PATHINFO_EXTENSION);
 
@@ -129,7 +133,7 @@ class OfficeConverter
     protected function prepOutput($outdir, $filename, $outputExtension)
     {
         $DS = DIRECTORY_SEPARATOR;
-        $tmpName = str_replace($this->extension, '', $this->basename).$outputExtension;
+        $tmpName = "$this->filename.$outputExtension";
         if (rename($outdir.$DS.$tmpName, $outdir.$DS.$filename)) {
             return $outdir.$DS.$filename;
         } elseif (is_file($outdir.$DS.$tmpName)) {
